@@ -155,5 +155,7 @@ main()
             one = "nine";
         }
         cout << ten << " " << one;
+    }if(number == 100){
+        cout<<"One Hundred";
     }
 }
