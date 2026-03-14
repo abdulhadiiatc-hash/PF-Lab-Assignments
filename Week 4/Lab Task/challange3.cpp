@@ -10,24 +10,24 @@ main()
     cin >> function;
     cout << "Enter the 2nd number: ";
     cin >> num2;
-    if (function == '+')
-    {
-        total = num1 + num2;
-        cout << num1 << function << num2 << "=" << total;
-    }
     if (function == '-')
     {
-        total = num1 - num2;
-        cout << num1 << function << num2 << "=" << total;
+        total = num1 + num2;
+        cout << num1 << "+" << num2 << "=" << total;
     }
-    if (function == '*')
+    if (function == '+')
     {
-        total = num1 * num2;
-        cout << num1 << function << num2 << "=" << total;
+        total = num1 - num2;
+        cout << num1 << "-" << num2 << "=" << total;
     }
     if (function == '/')
     {
+        total = num1 * num2;
+        cout << num1 << "*" << num2 << "=" << total;
+    }
+    if (function == '*')
+    {
         total = num1 / num2;
-        cout << num1 << function << num2 << "=" << total;
+        cout << num1 << "/" << num2 << "=" << total;
     }
 }
