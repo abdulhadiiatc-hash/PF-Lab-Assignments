@@ -1,36 +1,40 @@
 #include <iostream>
 #include <conio.h>
 using namespace std;
-void clearScreen() // clears Screen
+
+// clears the console screen
+void clearScreen()
 {
     system("cls");
 }
-void pause() // puse the Screen and wait for key
+
+// prints pause message and waits for a key press
+void pause()
 {
     cout << endl
          << "Press any Key to Continue..." << endl;
     getch();
 }
-int calculateAge(int birthYear) // calculate age by subtracting the entered birth year from the current year
+
+// calculates age by subtracting birth year from current year
+int calculateAge(int birthYear)
 {
     return 2026 - birthYear;
 }
-string determineAgeGroup(int age) // identify age group
+
+// returns age group based on age
+string determineAgeGroup(int age)
 {
     if (age >= 0 && age <= 2)
-    {
         return "Infant";
-    }
     else if (age > 2 && age <= 12)
-    {
         return "Child";
-    }
     else
-    {
         return "Adult";
-    }
 }
-int getValidBirthYear() // prevention from wrong birth year
+
+// keeps asking for birth year until a valid one is entered
+int getValidBirthYear()
 {
     int birthYear;
     while (true)
@@ -38,17 +42,15 @@ int getValidBirthYear() // prevention from wrong birth year
         cout << "Enter Birth Year: ";
         cin >> birthYear;
         if (2026 - birthYear < 0)
-        {
             cout << "Invalid Birth Year! Try Again." << endl;
-        }
         else
-        {
             break;
-        }
     }
     return birthYear;
 }
-int getValidPackage() // selection of correct package
+
+// shows package options and keeps asking until a valid choice is made
+int getValidPackage()
 {
     cout << "1. Economy  - PKR 250,000" << endl;
     cout << "2. 3 Star   - PKR 350,000" << endl;
@@ -59,38 +61,30 @@ int getValidPackage() // selection of correct package
     {
         cout << "Select Package (1-4): ";
         cin >> packageOption;
+        // only accept 1 to 4
         if (packageOption >= 1 && packageOption <= 4)
-        {
             break;
-        }
         else
-        {
             cout << "Wrong Input, Please choose 1 to 4" << endl;
-        }
     }
     return packageOption;
 }
-string getPackageName(int packageOption) // package info
+
+// returns the full package name and price as a string
+string getPackageName(int packageOption)
 {
     if (packageOption == 1)
-    {
         return "Economy - PKR 250,000";
-    }
     else if (packageOption == 2)
-    {
         return "3 Star - PKR 350,000";
-    }
     else if (packageOption == 3)
-    {
         return "4 Star - PKR 500,000";
-    }
     else
-    {
         return "5 Star - PKR 800,000";
-    }
 }
 
-int searchByName(string nameArray[], int index, string name) // search the client by name
+// searches for a name in the array and returns its index, or -1 if not found
+int searchByName(string nameArray[], int index, string name)
 {
     for (int i = 0; i < index; i++)
     {
@@ -100,7 +94,7 @@ int searchByName(string nameArray[], int index, string name) // search the clien
     return -1;
 }
 
-// sort the clients info by name in A to Z order
+// sorts all arrays together by client name using sorting
 void sortByName(string nameArray[], string fatherNameArray[], string birthDateArray[],
                 int birthYearArray[], int ageArray[], string ageGroupArray[],
                 string passportNumberArray[], string expiryDateArray[], int packageOptionArray[], int index)
@@ -109,7 +103,8 @@ void sortByName(string nameArray[], string fatherNameArray[], string birthDateAr
     {
         for (int j = i + 1; j < index; j++)
         {
-            if (ageArray[i] > ageArray[j])
+            // swap all parallel arrays together
+            if (nameArray[i] > nameArray[j])
             {
                 string tempName = nameArray[i];
                 nameArray[i] = nameArray[j];
@@ -143,8 +138,50 @@ void sortByName(string nameArray[], string fatherNameArray[], string birthDateAr
     }
 }
 
+// -------history functions-------
+
+// adds a new entry to history, shifts old entries out if already full
+void addToHistory(string historyArray[], int &historyCount, string message)
+{
+    if (historyCount < 6)
+    {
+        historyArray[historyCount] = message;
+        historyCount++;
+    }
+    else
+    {
+        // shift all entries one step to the left to drop the oldest
+        for (int i = 0; i < 5; i++)
+        {
+            historyArray[i] = historyArray[i + 1];
+        }
+        // place new entry at the end
+        historyArray[5] = message;
+    }
+}
+
+// prints all history entries
+void showHistory(string historyArray[], int historyCount)
+{
+    if (historyCount == 0)
+    {
+        cout << "No history yet." << endl;
+    }
+    else
+    {
+        cout << "---Recent Activity---" << endl;
+        for (int i = 0; i < historyCount; i++)
+        {
+            cout << i + 1 << ". " << historyArray[i] << endl;
+        }
+    }
+}
+
+// -------main-------
+
 int main()
 {
+    // tracks how many clients are stored
     int index = 0;
 
     // data structure
@@ -157,6 +194,12 @@ int main()
     string passportNumberArray[100];
     string expiryDateArray[100];
     int packageOptionArray[100];
+
+    // history arrays for admin and client, max 6 entries each
+    string adminHistory[6];
+    int adminHistoryCount = 0;
+    string clientHistory[6];
+    int clientHistoryCount = 0;
 
     while (true)
     {
@@ -172,7 +215,7 @@ int main()
 
         if (userOption == 1)
         {
-            // admin login
+            // admin login - allow 3 attempts
             for (int i = 0; i < 3; i++)
             {
                 clearScreen();
@@ -188,6 +231,8 @@ int main()
                 if (username == "admin" && password == "123")
                 {
                     cout << "Logged in successfully" << endl;
+                    // record login in history
+                    addToHistory(adminHistory, adminHistoryCount, "Logged in");
 
                     while (true)
                     {
@@ -200,7 +245,8 @@ int main()
                         cout << "6. Sort Clients by Name" << endl;
                         cout << "7. Package Summary" << endl;
                         cout << "8. Export Report" << endl;
-                        cout << "9. Logout" << endl;
+                        cout << "9. View History" << endl;
+                        cout << "10. Logout" << endl;
                         cout << "Choose any Option: ";
                         int adminOption;
                         cin >> adminOption;
@@ -214,15 +260,18 @@ int main()
                             }
                             else
                             {
+                                // print table header then all records
                                 cout << "Name\tFather\tDOB\tAge\tGroup\tPassport\tExpiry\tPackage" << endl;
                                 for (int i = 0; i < index; i++)
                                 {
+                                    // skip any empty slots
                                     if (nameArray[i] != "")
                                     {
                                         cout << nameArray[i] << "\t" << fatherNameArray[i] << "\t" << birthDateArray[i] << "\t" << ageArray[i] << "\t" << ageGroupArray[i] << "\t" << passportNumberArray[i] << "\t" << expiryDateArray[i] << "\t" << packageOptionArray[i] << endl;
                                     }
                                 }
                             }
+                            addToHistory(adminHistory, adminHistoryCount, "Viewed all clients");
                         }
                         else if (adminOption == 2)
                         {
@@ -231,15 +280,19 @@ int main()
                             cin.ignore();
                             string name;
                             getline(cin, name);
+                            // returns index if found, -1 if not
                             int foundindex = searchByName(nameArray, index, name);
                             if (foundindex == -1)
                             {
                                 cout << "Record not found against the name " << name << endl;
+                                addToHistory(adminHistory, adminHistoryCount, "Searched for " + name + " (not found)");
                             }
                             else
                             {
+                                // print header then the matched record
                                 cout << "Name\tFather\tDOB\tAge\tGroup\tPassport\tExpiry\tPackage" << endl;
                                 cout << nameArray[foundindex] << "\t" << fatherNameArray[foundindex] << "\t" << birthDateArray[foundindex] << "\t" << ageArray[foundindex] << "\t" << ageGroupArray[foundindex] << "\t" << passportNumberArray[foundindex] << "\t" << expiryDateArray[foundindex] << "\t" << packageOptionArray[foundindex] << endl;
+                                addToHistory(adminHistory, adminHistoryCount, "Searched for " + name + " (found)");
                             }
                         }
                         else if (adminOption == 3)
@@ -253,6 +306,7 @@ int main()
                             cout << "Enter Date of Birth: ";
                             getline(cin, birthDateArray[index]);
 
+                            // validate and store birth year, then calculate age and group
                             birthYearArray[index] = getValidBirthYear();
                             ageArray[index] = calculateAge(birthYearArray[index]);
                             ageGroupArray[index] = determineAgeGroup(ageArray[index]);
@@ -263,7 +317,11 @@ int main()
                             cout << "Enter Expiry Date: ";
                             getline(cin, expiryDateArray[index]);
 
+                            // validate and store package choice
                             packageOptionArray[index] = getValidPackage();
+
+                            // record before incrementing index so name is still accessible
+                            addToHistory(adminHistory, adminHistoryCount, "Added client: " + nameArray[index]);
                             index++;
 
                             cout << "Client added successfully!" << endl;
@@ -279,9 +337,11 @@ int main()
                             if (foundindex == -1)
                             {
                                 cout << "Record not found against the name " << name << endl;
+                                addToHistory(adminHistory, adminHistoryCount, "Update failed for " + name + " (not found)");
                             }
                             else
                             {
+                                // show old record before taking new input
                                 cout << "-----Old Record-----" << endl;
                                 cout << "Name\tFather\tDOB\tAge\tGroup\tPassport\tExpiry\tPackage" << endl;
                                 cout << nameArray[foundindex] << "\t" << fatherNameArray[foundindex] << "\t" << birthDateArray[foundindex] << "\t" << ageArray[foundindex] << "\t" << ageGroupArray[foundindex] << "\t" << passportNumberArray[foundindex] << "\t" << expiryDateArray[foundindex] << "\t" << packageOptionArray[foundindex] << endl;
@@ -294,6 +354,7 @@ int main()
                                 cout << "Enter Date of Birth: ";
                                 getline(cin, birthDateArray[foundindex]);
 
+                                // recalculate age and group with new birth year
                                 birthYearArray[foundindex] = getValidBirthYear();
                                 ageArray[foundindex] = calculateAge(birthYearArray[foundindex]);
                                 ageGroupArray[foundindex] = determineAgeGroup(ageArray[foundindex]);
@@ -305,6 +366,8 @@ int main()
                                 getline(cin, expiryDateArray[foundindex]);
 
                                 packageOptionArray[foundindex] = getValidPackage();
+                                // show old name -> new name in history
+                                addToHistory(adminHistory, adminHistoryCount, "Updated client: " + name + " -> " + nameArray[foundindex]);
                                 cout << "The Client's data has been updated successfully" << endl;
                             }
                         }
@@ -319,9 +382,11 @@ int main()
                             if (foundindex == -1)
                             {
                                 cout << "Record not found against the name " << name << endl;
+                                addToHistory(adminHistory, adminHistoryCount, "Delete failed for " + name + " (not found)");
                             }
                             else
                             {
+                                // shift all records after the deleted one to the left
                                 for (int i = foundindex; i < index - 1; i++)
                                 {
                                     nameArray[i] = nameArray[i + 1];
@@ -334,7 +399,9 @@ int main()
                                     expiryDateArray[i] = expiryDateArray[i + 1];
                                     packageOptionArray[i] = packageOptionArray[i + 1];
                                 }
+                                // reduce total count
                                 index--;
+                                addToHistory(adminHistory, adminHistoryCount, "Deleted client: " + name);
                                 cout << endl
                                      << "Record of " << name << " deleted successfully." << endl;
                             }
@@ -348,6 +415,7 @@ int main()
                             }
                             else
                             {
+                                // sort then display the updated list
                                 sortByName(nameArray, fatherNameArray, birthDateArray, birthYearArray, ageArray, ageGroupArray, passportNumberArray, expiryDateArray, packageOptionArray, index);
                                 cout << "Clients sorted by Name (A to Z):" << endl;
                                 cout << "Name\tFather\tAge\tGroup\tPackage" << endl;
@@ -355,11 +423,13 @@ int main()
                                 {
                                     cout << nameArray[i] << "\t" << fatherNameArray[i] << "\t" << ageArray[i] << "\t" << ageGroupArray[i] << "\t" << packageOptionArray[i] << endl;
                                 }
+                                addToHistory(adminHistory, adminHistoryCount, "Sorted clients by name");
                             }
                         }
                         else if (adminOption == 7)
                         {
                             // package summary
+                            // count clients in each package
                             int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
                             for (int i = 0; i < index; i++)
                             {
@@ -377,6 +447,7 @@ int main()
                             cout << "3 Star  : " << c2 << " clients" << endl;
                             cout << "4 Star  : " << c3 << " clients" << endl;
                             cout << "5 Star  : " << c4 << " clients" << endl;
+                            addToHistory(adminHistory, adminHistoryCount, "Viewed package summary");
                         }
                         else if (adminOption == 8)
                         {
@@ -388,6 +459,7 @@ int main()
                             }
                             else
                             {
+                                // print a numbered list of all clients
                                 for (int i = 0; i < index; i++)
                                 {
                                     if (nameArray[i] != "")
@@ -396,10 +468,17 @@ int main()
                                     }
                                 }
                             }
+                            addToHistory(adminHistory, adminHistoryCount, "Exported report");
                         }
                         else if (adminOption == 9)
                         {
+                            // view history
+                            showHistory(adminHistory, adminHistoryCount);
+                        }
+                        else if (adminOption == 10)
+                        {
                             // logout
+                            addToHistory(adminHistory, adminHistoryCount, "Logged out");
                             break;
                         }
                         else
@@ -435,7 +514,8 @@ int main()
                 cout << "4. Change My Package" << endl;
                 cout << "5. View Booking Summary" << endl;
                 cout << "6. View Age Group Info" << endl;
-                cout << "7. Exit" << endl;
+                cout << "7. View History" << endl;
+                cout << "8. Exit" << endl;
                 cout << "Choose any Option: ";
                 int clientOption;
                 cin >> clientOption;
@@ -453,6 +533,7 @@ int main()
                     cout << "Enter Date of Birth: ";
                     getline(cin, birthDateArray[index]);
 
+                    // validate and store birth year, then calculate age and group
                     birthYearArray[index] = getValidBirthYear();
                     ageArray[index] = calculateAge(birthYearArray[index]);
                     ageGroupArray[index] = determineAgeGroup(ageArray[index]);
@@ -463,7 +544,11 @@ int main()
                     cout << "Enter Expiry Date: ";
                     getline(cin, expiryDateArray[index]);
 
+                    // validate and store package choice
                     packageOptionArray[index] = getValidPackage();
+
+                    // record before incrementing index so name is still accessible
+                    addToHistory(clientHistory, clientHistoryCount, "Entered details for " + nameArray[index]);
                     index++;
 
                     cout << "Your details have been stored successfully" << endl;
@@ -478,6 +563,7 @@ int main()
                     }
                     else
                     {
+                        // show the most recently entered record
                         cout << "Name     : " << nameArray[index - 1] << endl;
                         cout << "Father   : " << fatherNameArray[index - 1] << endl;
                         cout << "DOB      : " << birthDateArray[index - 1] << endl;
@@ -485,6 +571,7 @@ int main()
                         cout << "Passport : " << passportNumberArray[index - 1] << endl;
                         cout << "Expiry   : " << expiryDateArray[index - 1] << endl;
                         cout << "Package  : " << packageOptionArray[index - 1] << endl;
+                        addToHistory(clientHistory, clientHistoryCount, "Viewed details for " + nameArray[index - 1]);
                     }
                 }
                 else if (clientOption == 3)
@@ -495,6 +582,7 @@ int main()
                     cout << "3 Star  : 14 Days | Emirates | Al Massa Makkah | PKR 350,000" << endl;
                     cout << "4 Star  : 17 Days | Saudi Airlines | Conrad Makkah | PKR 500,000" << endl;
                     cout << "5 Star  : 21 Days | Qatar Airways | Swissotel Makkah | PKR 800,000" << endl;
+                    addToHistory(clientHistory, clientHistoryCount, "Viewed package details");
                 }
                 else if (clientOption == 4)
                 {
@@ -506,7 +594,10 @@ int main()
                     }
                     else
                     {
+                        // save old package to show in history
+                        int oldPackage = packageOptionArray[index - 1];
                         packageOptionArray[index - 1] = getValidPackage();
+                        addToHistory(clientHistory, clientHistoryCount, "Changed package from " + getPackageName(oldPackage) + " to " + getPackageName(packageOptionArray[index - 1]));
                         cout << "Package updated successfully!" << endl;
                     }
                 }
@@ -523,9 +614,11 @@ int main()
                         cout << "Name    : " << nameArray[index - 1] << endl;
                         cout << "Age     : " << ageArray[index - 1] << " (" << ageGroupArray[index - 1] << ")" << endl;
                         cout << "Passport: " << passportNumberArray[index - 1] << endl;
+                        // show full package name instead of just the number
                         cout << "Package : " << getPackageName(packageOptionArray[index - 1]) << endl;
                         cout << endl
                              << "Thank you for choosing us!" << endl;
+                        addToHistory(clientHistory, clientHistoryCount, "Viewed booking summary for " + nameArray[index - 1]);
                     }
                 }
                 else if (clientOption == 6)
@@ -536,10 +629,17 @@ int main()
                     cout << "Child  : 3-12 years  (Child fare)" << endl;
                     cout << "Adult  : 13+ years   (Full fare)" << endl;
                     cout << "Age = 2026 - Birth Year" << endl;
+                    addToHistory(clientHistory, clientHistoryCount, "Viewed age group info");
                 }
                 else if (clientOption == 7)
                 {
+                    // view history
+                    showHistory(clientHistory, clientHistoryCount);
+                }
+                else if (clientOption == 8)
+                {
                     // exit client menu
+                    addToHistory(clientHistory, clientHistoryCount, "Exited client menu");
                     cout << "Thank you for choosing us for your prestigious journey!" << endl;
                     getch();
                     break;
@@ -554,6 +654,7 @@ int main()
         }
         else if (userOption == 3)
         {
+            // exit the program
             break;
         }
         else
