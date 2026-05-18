@@ -4,11 +4,9 @@ using namespace std;
 
 int main()
 {
-    // Data Structure
     int index = 0;
-    int historyIndex = 0;
-    int clientHistoryIndex = 0;
 
+    // data structure
     string nameArray[100];
     string fatherNameArray[100];
     string birthDateArray[100];
@@ -17,37 +15,29 @@ int main()
     string ageGroupArray[100];
     string passportNumberArray[100];
     string expiryDateArray[100];
-    char packageOptionArray[100];
-    string historyArray[6];
-    string clientHistoryArray[6];
-
-    char userOption;
+    int packageOptionArray[100];
 
     while (true)
     {
         system("cls");
+        cout << "---Umrah Booking Management System---" << endl;
 
-        // Main Menu
-        cout << "|---------------------------------------------|" << endl;
-        cout << "|-------Umrah Booking Management System-------|" << endl;
-        cout << "|---------------------------------------------|" << endl;
-        cout << "\nUser Menu" << endl;
+        cout << "User Menu" << endl;
         cout << "1. Admin" << endl;
         cout << "2. Client" << endl;
-        cout << "3. Exit Application" << endl;
-        cout << "Choose an Option: ";
+        cout << "3. Exit" << endl;
+        cout << "Choose Option: ";
+        int userOption;
         cin >> userOption;
 
-        if (userOption == '1')
+        if (userOption == 1)
         {
-            // Admin Login
+            // admin login
             for (int i = 0; i < 3; i++)
             {
                 system("cls");
-                cout << "|-------------------------------|" << endl;
-                cout << "|--------Welcome to UBMS--------|" << endl;
-                cout << "|-------------------------------|" << endl;
-                cout << "Login attempt - " << i + 1 << endl;
+                cout << "---Welcome to UBMS---\n-----Admin Menu-----" << endl;
+                cout << "Login Attempt " << i + 1 << endl;
                 cout << "Enter Username: ";
                 string username;
                 cin >> username;
@@ -57,814 +47,672 @@ int main()
 
                 if (username == "admin" && password == "123")
                 {
-                    cout << "Logged in Successfully" << endl;
-                    getch();
+                    cout << "Logged in successfully" << endl;
 
                     while (true)
                     {
                         system("cls");
-
-                        // Admin Menu
-                        cout << "|-------------------------------|" << endl;
-                        cout << "|----------Admin Menu-----------|" << endl;
-                        cout << "|-------------------------------|" << endl;
                         cout << "1. Show All Clients" << endl;
                         cout << "2. Search Client" << endl;
                         cout << "3. Add Client Record" << endl;
                         cout << "4. Update Client Record" << endl;
                         cout << "5. Delete Client Record" << endl;
-                        cout << "6. Generate Sorted List" << endl;
-                        cout << "7. View Package Summary" << endl;
-                        cout << "8. View Action History" << endl;
-                        cout << "9. Export Report" << endl;
-                        cout << "0. Logout" << endl;
-                        cout << "Choose an Option: ";
-                        char adminOption;
+                        cout << "6. Sort Clients by Name" << endl;
+                        cout << "7. Package Summary" << endl;
+                        cout << "8. Export Report" << endl;
+                        cout << "9. Logout" << endl;
+                        cout << "Choose any Option: ";
+                        int adminOption;
                         cin >> adminOption;
-                        cin.ignore();
 
-                        if (adminOption == '1')
+                        if (adminOption == 1)
                         {
-                            system("cls");
-
-                            // Show All Clients
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|--------All Clients------------|" << endl;
-                            cout << "|-------------------------------|" << endl;
-
+                            // show all clients
                             if (index == 0)
                             {
                                 cout << "No records found." << endl;
                             }
                             else
                             {
+                                cout << "Name\tFather\tDOB\tAge\tGroup\tPassport\tExpiry\tPackage" << endl;
                                 for (int i = 0; i < index; i++)
                                 {
-                                    cout << "\n#" << i + 1 << endl;
-                                    cout << "Name     : " << nameArray[i] << endl;
-                                    cout << "Father   : " << fatherNameArray[i] << endl;
-                                    cout << "DOB      : " << birthDateArray[i] << endl;
-                                    cout << "Age      : " << ageArray[i] << " (" << ageGroupArray[i] << ")" << endl;
-                                    cout << "Passport : " << passportNumberArray[i] << endl;
-                                    cout << "Expiry   : " << expiryDateArray[i] << endl;
-                                    cout << "Package  : " << packageOptionArray[i] << endl;
-                                    cout << "----------------------------" << endl;
+                                    if (nameArray[i] != "")
+                                    {
+                                        cout << nameArray[i] << "\t" << fatherNameArray[i] << "\t" << birthDateArray[i] << "\t" << ageArray[i] << "\t" << ageGroupArray[i] << "\t" << passportNumberArray[i] << "\t" << expiryDateArray[i] << "\t" << packageOptionArray[i] << endl;
+                                    }
                                 }
                             }
-
-                            historyArray[historyIndex] = "Viewed All Clients";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
                         }
-                        else if (adminOption == '2')
+                        else if (adminOption == 2)
                         {
-                            system("cls");
-
-                            // Search Client
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|--------Search Client----------|" << endl;
-                            cout << "|-------------------------------|" << endl;
-                            cout << "1. Search by Name" << endl;
-                            cout << "2. Search by Passport Number" << endl;
-                            cout << "Choose: ";
-                            char searchOption;
-                            cin >> searchOption;
+                            // search client by name
+                            cout << "Enter the Client's Name whom you want to search: ";
                             cin.ignore();
-
-                            cout << "Enter Search Term: ";
-                            string searchTerm;
-                            getline(cin, searchTerm);
-
-                            int foundIndex = -1;
-
-                            if (searchOption == '1')
+                            string name;
+                            getline(cin, name);
+                            bool namefound = false;
+                            int foundindex = -1;
+                            for (int i = 0; i < index; i++)
                             {
-                                for (int i = 0; i < index; i++)
+                                if (nameArray[i] == name)
                                 {
-                                    if (nameArray[i] == searchTerm)
-                                    {
-                                        foundIndex = i;
-                                    }
+                                    foundindex = i;
+                                    namefound = true;
+                                    break;
                                 }
                             }
-                            else if (searchOption == '2')
+                            if (namefound == false)
                             {
-                                for (int i = 0; i < index; i++)
-                                {
-                                    if (passportNumberArray[i] == searchTerm)
-                                    {
-                                        foundIndex = i;
-                                    }
-                                }
+                                cout << "Record not found against the name " << name << endl;
                             }
                             else
                             {
-                                cout << "Wrong Input! Please Try Again" << endl;
+                                cout << "Name\tFather\tDOB\tAge\tGroup\tPassport\tExpiry\tPackage" << endl;
+                                cout << nameArray[foundindex] << "\t" << fatherNameArray[foundindex] << "\t" << birthDateArray[foundindex] << "\t" << ageArray[foundindex] << "\t" << ageGroupArray[foundindex] << "\t" << passportNumberArray[foundindex] << "\t" << expiryDateArray[foundindex] << "\t" << packageOptionArray[foundindex] << endl;
                             }
-
-                            if (foundIndex != -1)
-                            {
-                                cout << "\nRecord Found!" << endl;
-                                cout << "Name     : " << nameArray[foundIndex] << endl;
-                                cout << "Father   : " << fatherNameArray[foundIndex] << endl;
-                                cout << "Age      : " << ageArray[foundIndex] << " (" << ageGroupArray[foundIndex] << ")" << endl;
-                                cout << "Passport : " << passportNumberArray[foundIndex] << endl;
-                                cout << "Package  : " << packageOptionArray[foundIndex] << endl;
-                            }
-                            else if (searchOption == '1' || searchOption == '2')
-                            {
-                                cout << "Record Not Found." << endl;
-                            }
-
-                            historyArray[historyIndex] = "Searched Client";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
                         }
-                        else if (adminOption == '3')
+                        else if (adminOption == 3)
                         {
-                            system("cls");
-
-                            // Add Client Record
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|------Add Client Record--------|" << endl;
-                            cout << "|-------------------------------|" << endl;
-
+                            // add client record
+                            cin.ignore();
                             cout << "Enter Name: ";
-                            getline(cin, nameArray[index]);
+                            string name;
+                            getline(cin, name);
                             cout << "Enter Father Name: ";
-                            getline(cin, fatherNameArray[index]);
+                            string fatherName;
+                            getline(cin, fatherName);
                             cout << "Enter Date of Birth: ";
-                            getline(cin, birthDateArray[index]);
-                            cout << "Enter Birth Year: ";
-                            cin >> birthYearArray[index];
-                            cin.ignore();
+                            string birthDate;
+                            getline(cin, birthDate);
 
-                            ageArray[index] = 2026 - birthYearArray[index];
-
-                            if (ageArray[index] >= 0 && ageArray[index] <= 2)
-                            {
-                                ageGroupArray[index] = "Infant";
-                            }
-                            else if (ageArray[index] > 2 && ageArray[index] <= 12)
-                            {
-                                ageGroupArray[index] = "Child";
-                            }
-                            else
-                            {
-                                ageGroupArray[index] = "Adult";
-                            }
-
-                            cout << "Enter Passport Number: ";
-                            getline(cin, passportNumberArray[index]);
-                            cout << "Enter Expiry Date: ";
-                            getline(cin, expiryDateArray[index]);
-
+                            int birthYear;
                             while (true)
                             {
-                                cout << "\n1. Economy  - PKR 250,000" << endl;
-                                cout << "2. 3 Star   - PKR 350,000" << endl;
-                                cout << "3. 4 Star   - PKR 500,000" << endl;
-                                cout << "4. 5 Star   - PKR 800,000" << endl;
-                                cout << "Select Package (1-4): ";
-                                cin >> packageOptionArray[index];
-                                cin.ignore();
+                                cout << "Enter Birth Year: ";
+                                cin >> birthYear;
+                                if (2026 - birthYear < 0)
+                                {
+                                    cout << "Invalid Birth Year! Try Again." << endl;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
 
-                                if (packageOptionArray[index] == '1' || packageOptionArray[index] == '2' ||
-                                    packageOptionArray[index] == '3' || packageOptionArray[index] == '4')
+                            int age = 2026 - birthYear;
+                            string ageGroup;
+                            if (age >= 0 && age <= 2)
+                            {
+                                ageGroup = "Infant";
+                            }
+                            else if (age > 2 && age <= 12)
+                            {
+                                ageGroup = "Child";
+                            }
+                            else
+                            {
+                                ageGroup = "Adult";
+                            }
+
+                            cin.ignore();
+                            cout << "Enter Passport Number: ";
+                            string passportNumber;
+                            getline(cin, passportNumber);
+                            cout << "Enter Expiry Date: ";
+                            string expiryDate;
+                            getline(cin, expiryDate);
+
+                            cout << "1. Economy  - PKR 250,000" << endl;
+                            cout << "2. 3 Star   - PKR 350,000" << endl;
+                            cout << "3. 4 Star   - PKR 500,000" << endl;
+                            cout << "4. 5 Star   - PKR 800,000" << endl;
+                            int packageOption;
+                            while (true)
+                            {
+                                cout << "Select Package (1-4): ";
+                                cin >> packageOption;
+                                if (packageOption == 1 || packageOption == 2 || packageOption == 3 || packageOption == 4)
                                 {
                                     break;
                                 }
                                 else
                                 {
-                                    cout << "Wrong Input! Please Try Again" << endl;
+                                    cout << "Wrong Input, Please choose 1 to 4" << endl;
                                 }
                             }
 
+                            nameArray[index] = name;
+                            fatherNameArray[index] = fatherName;
+                            birthDateArray[index] = birthDate;
+                            birthYearArray[index] = birthYear;
+                            ageArray[index] = age;
+                            ageGroupArray[index] = ageGroup;
+                            passportNumberArray[index] = passportNumber;
+                            expiryDateArray[index] = expiryDate;
+                            packageOptionArray[index] = packageOption;
                             index++;
-                            cout << "\nClient added successfully!" << endl;
 
-                            historyArray[historyIndex] = "Added Client Record";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
+                            cout << "Client added successfully!" << endl;
                         }
-                        else if (adminOption == '4')
+                        else if (adminOption == 4)
                         {
-                            system("cls");
-
-                            // Update Client Record
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|-----Update Client Record------|" << endl;
-                            cout << "|-------------------------------|" << endl;
-
-                            if (index == 0)
+                            // update client record
+                            cout << "Enter the Client's Name whom you want to update: ";
+                            cin.ignore();
+                            string name;
+                            getline(cin, name);
+                            bool namefound = false;
+                            int foundindex = -1;
+                            for (int i = 0; i < index; i++)
                             {
-                                cout << "No records found." << endl;
-                            }
-                            else
-                            {
-                                cout << "Enter Record Number (1 to " << index << "): ";
-                                int recordNum;
-                                cin >> recordNum;
-                                cin.ignore();
-
-                                if (recordNum >= 1 && recordNum <= index)
+                                if (nameArray[i] == name)
                                 {
-                                    int pos = recordNum - 1;
+                                    foundindex = i;
+                                    namefound = true;
+                                    break;
+                                }
+                            }
+                            if (namefound == true)
+                            {
+                                cout << "-----Old Record-----" << endl;
+                                cout << "Name\tFather\tDOB\tAge\tGroup\tPassport\tExpiry\tPackage" << endl;
+                                cout << nameArray[foundindex] << "\t" << fatherNameArray[foundindex] << "\t" << birthDateArray[foundindex] << "\t" << ageArray[foundindex] << "\t" << ageGroupArray[foundindex] << "\t" << passportNumberArray[foundindex] << "\t" << expiryDateArray[foundindex] << "\t" << packageOptionArray[foundindex] << endl;
 
-                                    cout << "Enter Name: ";
-                                    getline(cin, nameArray[pos]);
-                                    cout << "Enter Father Name: ";
-                                    getline(cin, fatherNameArray[pos]);
-                                    cout << "Enter Date of Birth: ";
-                                    getline(cin, birthDateArray[pos]);
+                                cout << "Enter the new details to update record" << endl;
+                                cout << "Enter Name: ";
+                                string newName;
+                                getline(cin, newName);
+                                cout << "Enter Father Name: ";
+                                string newFatherName;
+                                getline(cin, newFatherName);
+                                cout << "Enter Date of Birth: ";
+                                string newBirthDate;
+                                getline(cin, newBirthDate);
+
+                                int newBirthYear;
+                                while (true)
+                                {
                                     cout << "Enter Birth Year: ";
-                                    cin >> birthYearArray[pos];
-                                    cin.ignore();
-
-                                    ageArray[pos] = 2026 - birthYearArray[pos];
-
-                                    if (ageArray[pos] >= 0 && ageArray[pos] <= 2)
+                                    cin >> newBirthYear;
+                                    if (2026 - newBirthYear < 0)
                                     {
-                                        ageGroupArray[pos] = "Infant";
-                                    }
-                                    else if (ageArray[pos] > 2 && ageArray[pos] <= 12)
-                                    {
-                                        ageGroupArray[pos] = "Child";
+                                        cout << "Invalid Birth Year! Try Again." << endl;
                                     }
                                     else
                                     {
-                                        ageGroupArray[pos] = "Adult";
+                                        break;
                                     }
+                                }
 
-                                    cout << "Enter Passport Number: ";
-                                    getline(cin, passportNumberArray[pos]);
-                                    cout << "Enter Expiry Date: ";
-                                    getline(cin, expiryDateArray[pos]);
-
-                                    while (true)
-                                    {
-                                        cout << "Select Package (1-4): ";
-                                        cin >> packageOptionArray[pos];
-                                        cin.ignore();
-                                        if (packageOptionArray[pos] == '1' || packageOptionArray[pos] == '2' ||
-                                            packageOptionArray[pos] == '3' || packageOptionArray[pos] == '4')
-                                        {
-                                            break;
-                                        }
-                                        else
-                                        {
-                                            cout << "Wrong Input! Please Try Again" << endl;
-                                        }
-                                    }
-
-                                    cout << "\nRecord updated successfully!" << endl;
+                                int newAge = 2026 - newBirthYear;
+                                string newAgeGroup;
+                                if (newAge >= 0 && newAge <= 2)
+                                {
+                                    newAgeGroup = "Infant";
+                                }
+                                else if (newAge > 2 && newAge <= 12)
+                                {
+                                    newAgeGroup = "Child";
                                 }
                                 else
                                 {
-                                    cout << "Wrong Input! Please Try Again" << endl;
+                                    newAgeGroup = "Adult";
+                                }
+
+                                cin.ignore();
+                                cout << "Enter Passport Number: ";
+                                string newPassportNumber;
+                                getline(cin, newPassportNumber);
+                                cout << "Enter Expiry Date: ";
+                                string newExpiryDate;
+                                getline(cin, newExpiryDate);
+
+                                cout << "1. Economy  - PKR 250,000" << endl;
+                                cout << "2. 3 Star   - PKR 350,000" << endl;
+                                cout << "3. 4 Star   - PKR 500,000" << endl;
+                                cout << "4. 5 Star   - PKR 800,000" << endl;
+                                int newPackageOption;
+                                while (true)
+                                {
+                                    cout << "Select Package (1-4): ";
+                                    cin >> newPackageOption;
+                                    if (newPackageOption == 1 || newPackageOption == 2 || newPackageOption == 3 || newPackageOption == 4)
+                                    {
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        cout << "Wrong Input, Please choose 1 to 4" << endl;
+                                    }
+                                }
+
+                                nameArray[foundindex] = newName;
+                                fatherNameArray[foundindex] = newFatherName;
+                                birthDateArray[foundindex] = newBirthDate;
+                                birthYearArray[foundindex] = newBirthYear;
+                                ageArray[foundindex] = newAge;
+                                ageGroupArray[foundindex] = newAgeGroup;
+                                passportNumberArray[foundindex] = newPassportNumber;
+                                expiryDateArray[foundindex] = newExpiryDate;
+                                packageOptionArray[foundindex] = newPackageOption;
+
+                                cout << "The Client's data has been updated successfully" << endl;
+                            }
+                            else
+                            {
+                                cout << "Record not found against the name " << name << endl;
+                            }
+                        }
+                        else if (adminOption == 5)
+                        {
+                            // delete client record
+                            cout << "Enter the Client's Name whom you want to delete: ";
+                            cin.ignore();
+                            string name;
+                            getline(cin, name);
+                            bool namefound = false;
+                            int foundindex = -1;
+                            for (int i = 0; i < index; i++)
+                            {
+                                if (nameArray[i] == name)
+                                {
+                                    foundindex = i;
+                                    namefound = true;
+                                    break;
                                 }
                             }
-
-                            historyArray[historyIndex] = "Updated Client Record";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
+                            if (namefound == true)
+                            {
+                                for (int i = foundindex; i < index - 1; i++)
+                                {
+                                    nameArray[i] = nameArray[i + 1];
+                                    fatherNameArray[i] = fatherNameArray[i + 1];
+                                    birthDateArray[i] = birthDateArray[i + 1];
+                                    birthYearArray[i] = birthYearArray[i + 1];
+                                    ageArray[i] = ageArray[i + 1];
+                                    ageGroupArray[i] = ageGroupArray[i + 1];
+                                    passportNumberArray[i] = passportNumberArray[i + 1];
+                                    expiryDateArray[i] = expiryDateArray[i + 1];
+                                    packageOptionArray[i] = packageOptionArray[i + 1];
+                                }
+                                index--;
+                                cout << endl
+                                     << "Record of " << name << " deleted successfully." << endl;
+                            }
+                            else
+                            {
+                                cout << "Record not found against the name " << name << endl;
+                            }
                         }
-                        else if (adminOption == '5')
+                        else if (adminOption == 6)
                         {
-                            system("cls");
-
-                            // Delete Client Record
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|-----Delete Client Record------|" << endl;
-                            cout << "|-------------------------------|" << endl;
-
+                            // sort clients by name
                             if (index == 0)
                             {
                                 cout << "No records found." << endl;
                             }
                             else
                             {
-                                cout << "Enter Record Number to Delete (1 to " << index << "): ";
-                                int recordNum;
-                                cin >> recordNum;
-                                cin.ignore();
-
-                                if (recordNum >= 1 && recordNum <= index)
+                                for (int i = 0; i < index; i++)
                                 {
-                                    int pos = recordNum - 1;
-
-                                    for (int i = pos; i < index - 1; i++)
+                                    for (int j = i + 1; j < index; j++)
                                     {
-                                        nameArray[i]           = nameArray[i + 1];
-                                        fatherNameArray[i]     = fatherNameArray[i + 1];
-                                        birthDateArray[i]      = birthDateArray[i + 1];
-                                        birthYearArray[i]      = birthYearArray[i + 1];
-                                        ageArray[i]            = ageArray[i + 1];
-                                        ageGroupArray[i]       = ageGroupArray[i + 1];
-                                        passportNumberArray[i] = passportNumberArray[i + 1];
-                                        expiryDateArray[i]     = expiryDateArray[i + 1];
-                                        packageOptionArray[i]  = packageOptionArray[i + 1];
-                                    }
+                                        if (nameArray[i] > nameArray[j])
+                                        {
+                                            string tempName = nameArray[i];
+                                            nameArray[i] = nameArray[j];
+                                            nameArray[j] = tempName;
 
-                                    index--;
-                                    cout << "\nRecord deleted successfully!" << endl;
+                                            string tempFather = fatherNameArray[i];
+                                            fatherNameArray[i] = fatherNameArray[j];
+                                            fatherNameArray[j] = tempFather;
+
+                                            string tempDOB = birthDateArray[i];
+                                            birthDateArray[i] = birthDateArray[j];
+                                            birthDateArray[j] = tempDOB;
+
+                                            int tempBirthYear = birthYearArray[i];
+                                            birthYearArray[i] = birthYearArray[j];
+                                            birthYearArray[j] = tempBirthYear;
+
+                                            int tempAge = ageArray[i];
+                                            ageArray[i] = ageArray[j];
+                                            ageArray[j] = tempAge;
+
+                                            string tempAgeGroup = ageGroupArray[i];
+                                            ageGroupArray[i] = ageGroupArray[j];
+                                            ageGroupArray[j] = tempAgeGroup;
+
+                                            string tempPassport = passportNumberArray[i];
+                                            passportNumberArray[i] = passportNumberArray[j];
+                                            passportNumberArray[j] = tempPassport;
+
+                                            string tempExpiry = expiryDateArray[i];
+                                            expiryDateArray[i] = expiryDateArray[j];
+                                            expiryDateArray[j] = tempExpiry;
+
+                                            int tempPackage = packageOptionArray[i];
+                                            packageOptionArray[i] = packageOptionArray[j];
+                                            packageOptionArray[j] = tempPackage;
+                                        }
+                                    }
                                 }
-                                else
+
+                                cout << "Clients sorted by Name (A to Z):" << endl;
+                                cout << "Name\tFather\tAge\tGroup\tPackage" << endl;
+                                for (int i = 0; i < index; i++)
                                 {
-                                    cout << "Wrong Input! Please Try Again" << endl;
+                                    cout << nameArray[i] << "\t" << fatherNameArray[i] << "\t" << ageArray[i] << "\t" << ageGroupArray[i] << "\t" << packageOptionArray[i] << endl;
                                 }
                             }
-
-                            historyArray[historyIndex] = "Deleted Client Record";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
                         }
-                        else if (adminOption == '6')
+                        else if (adminOption == 7)
                         {
-                            system("cls");
-
-                            // Generate Sorted List
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|-----Sorted Passenger List-----|" << endl;
-                            cout << "|-------------------------------|" << endl;
-                            cout << "1. Sort by Name" << endl;
-                            cout << "2. Sort by Age" << endl;
-                            cout << "3. Sort by Package" << endl;
-                            cout << "Choose: ";
-                            char sortOption;
-                            cin >> sortOption;
-                            cin.ignore();
-
-                            for (int i = 0; i < index - 1; i++)
-                            {
-                                for (int j = 0; j < index - i - 1; j++)
-                                {
-                                    bool doSwap = false;
-
-                                    if (sortOption == '1' && nameArray[j] > nameArray[j + 1])
-                                    {
-                                        doSwap = true;
-                                    }
-                                    else if (sortOption == '2' && ageArray[j] > ageArray[j + 1])
-                                    {
-                                        doSwap = true;
-                                    }
-                                    else if (sortOption == '3' && packageOptionArray[j] > packageOptionArray[j + 1])
-                                    {
-                                        doSwap = true;
-                                    }
-
-                                    if (doSwap == true)
-                                    {
-                                        string tempStr;
-                                        int tempInt;
-                                        char tempChar;
-
-                                        tempStr = nameArray[j]; nameArray[j] = nameArray[j+1]; nameArray[j+1] = tempStr;
-                                        tempStr = fatherNameArray[j]; fatherNameArray[j] = fatherNameArray[j+1]; fatherNameArray[j+1] = tempStr;
-                                        tempStr = birthDateArray[j]; birthDateArray[j] = birthDateArray[j+1]; birthDateArray[j+1] = tempStr;
-                                        tempInt = birthYearArray[j]; birthYearArray[j] = birthYearArray[j+1]; birthYearArray[j+1] = tempInt;
-                                        tempInt = ageArray[j]; ageArray[j] = ageArray[j+1]; ageArray[j+1] = tempInt;
-                                        tempStr = ageGroupArray[j]; ageGroupArray[j] = ageGroupArray[j+1]; ageGroupArray[j+1] = tempStr;
-                                        tempStr = passportNumberArray[j]; passportNumberArray[j] = passportNumberArray[j+1]; passportNumberArray[j+1] = tempStr;
-                                        tempStr = expiryDateArray[j]; expiryDateArray[j] = expiryDateArray[j+1]; expiryDateArray[j+1] = tempStr;
-                                        tempChar = packageOptionArray[j]; packageOptionArray[j] = packageOptionArray[j+1]; packageOptionArray[j+1] = tempChar;
-                                    }
-                                }
-                            }
-
-                            for (int i = 0; i < index; i++)
-                            {
-                                cout << i + 1 << ". " << nameArray[i] << " | Age: " << ageArray[i] << " (" << ageGroupArray[i] << ") | Pkg: " << packageOptionArray[i] << endl;
-                            }
-
-                            historyArray[historyIndex] = "Generated Sorted List";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
-                        }
-                        else if (adminOption == '7')
-                        {
-                            system("cls");
-
-                            // View Package Summary
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|------Package Summary----------|" << endl;
-                            cout << "|-------------------------------|" << endl;
-
+                            // package summary
                             int c1 = 0, c2 = 0, c3 = 0, c4 = 0;
-
                             for (int i = 0; i < index; i++)
                             {
-                                if (packageOptionArray[i] == '1') { c1++; }
-                                else if (packageOptionArray[i] == '2') { c2++; }
-                                else if (packageOptionArray[i] == '3') { c3++; }
-                                else if (packageOptionArray[i] == '4') { c4++; }
-                            }
-
-                            cout << "\nEconomy : " << c1 << " clients | PKR " << c1 * 250000 << endl;
-                            cout << "3 Star  : " << c2 << " clients | PKR " << c2 * 350000 << endl;
-                            cout << "4 Star  : " << c3 << " clients | PKR " << c3 * 500000 << endl;
-                            cout << "5 Star  : " << c4 << " clients | PKR " << c4 * 800000 << endl;
-                            cout << "Total Revenue : PKR " << (c1*250000 + c2*350000 + c3*500000 + c4*800000) << endl;
-
-                            historyArray[historyIndex] = "Viewed Package Summary";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
-                        }
-                        else if (adminOption == '8')
-                        {
-                            system("cls");
-
-                            // View Action History
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|--------Action History---------|" << endl;
-                            cout << "|-------------------------------|" << endl;
-
-                            for (int i = 0; i < 6; i++)
-                            {
-                                if (historyArray[i] != "")
+                                if (packageOptionArray[i] == 1)
                                 {
-                                    cout << i + 1 << ". " << historyArray[i] << endl;
+                                    c1++;
+                                }
+                                else if (packageOptionArray[i] == 2)
+                                {
+                                    c2++;
+                                }
+                                else if (packageOptionArray[i] == 3)
+                                {
+                                    c3++;
+                                }
+                                else if (packageOptionArray[i] == 4)
+                                {
+                                    c4++;
                                 }
                             }
-
-                            getch();
+                            cout << "Total Clients : " << index << endl;
+                            cout << "Economy : " << c1 << " clients" << endl;
+                            cout << "3 Star  : " << c2 << " clients" << endl;
+                            cout << "4 Star  : " << c3 << " clients" << endl;
+                            cout << "5 Star  : " << c4 << " clients" << endl;
                         }
-                        else if (adminOption == '9')
+                        else if (adminOption == 8)
                         {
-                            system("cls");
-
-                            // Export Report
-                            cout << "|-------------------------------|" << endl;
-                            cout << "|--------Booking Report---------|" << endl;
-                            cout << "|-------------------------------|" << endl;
+                            // export report
                             cout << "Total Records: " << index << endl;
-                            cout << "===============================" << endl;
-
-                            for (int i = 0; i < index; i++)
+                            if (index == 0)
                             {
-                                cout << "#" << i+1 << " " << nameArray[i] << " | " << ageGroupArray[i] << " | Pkg: " << packageOptionArray[i] << endl;
+                                cout << "No records to export." << endl;
                             }
-
-                            historyArray[historyIndex] = "Exported Report";
-                            historyIndex++;
-                            if (historyIndex >= 6) { historyIndex = 0; }
-
-                            getch();
+                            else
+                            {
+                                for (int i = 0; i < index; i++)
+                                {
+                                    if (nameArray[i] != "")
+                                    {
+                                        cout << i + 1 << ". " << nameArray[i] << " | " << ageGroupArray[i] << " | Package " << packageOptionArray[i] << endl;
+                                    }
+                                }
+                            }
                         }
-                        else if (adminOption == '0')
+                        else if (adminOption == 9)
                         {
-                            // Logout
+                            // logout
                             break;
                         }
                         else
                         {
-                            cout << "Wrong Input! Please Try Again" << endl;
-                            getch();
+                            cout << "Invalid Option, Please choose one of the options mentioned above." << endl;
                         }
+
+                        cout << endl
+                             << "Press any Key to Continue..." << endl;
+                        getch();
                     }
+
+                    cout << endl
+                         << "Press any Key to Continue..." << endl;
+                    getch();
+                    break;
                 }
                 else
                 {
-                    cout << "Wrong Credentials! Please Try Again..." << endl;
-                    getch();
+                    cout << "Username and Password is Invalid" << endl;
                 }
+
+                cout << "Press any key to continue...";
+                getch();
             }
         }
-        else if (userOption == '2')
+        else if (userOption == 2)
         {
+            // client menu
             while (true)
             {
                 system("cls");
-
-                // Client Menu
-                cout << "|------------------------------------|" << endl;
-                cout << "|----------Client Dashboard----------|" << endl;
-                cout << "|------------------------------------|" << endl;
-                cout << "1. Enter Passenger Details" << endl;
-                cout << "2. View My Passenger Details" << endl;
+                cout << "---Welcome to UBMS---\n----Client Menu----" << endl;
+                cout << "1. Enter My Details" << endl;
+                cout << "2. View My Details" << endl;
                 cout << "3. View Package Details" << endl;
-                cout << "4. Change Package Selection" << endl;
+                cout << "4. Change My Package" << endl;
                 cout << "5. View Booking Summary" << endl;
-                cout << "6. Register Another Passenger" << endl;
-                cout << "7. View Age Group Information" << endl;
-                cout << "8. View Action History" << endl;
-                cout << "9. Clear My Details" << endl;
-                cout << "0. Exit" << endl;
-                cout << "Choose any option: ";
-                char clientOption;
+                cout << "6. View Age Group Info" << endl;
+                cout << "7. Exit" << endl;
+                cout << "Choose any Option: ";
+                int clientOption;
                 cin >> clientOption;
-                cin.ignore();
 
-                if (clientOption == '1' || clientOption == '6')
+                if (clientOption == 1)
                 {
+                    // enter client details
                     system("cls");
-
-                    // Enter Passenger Details
-                    cout << "|------------------------------------|" << endl;
-                    cout << "|------Enter Passenger Details-------|" << endl;
-                    cout << "|------------------------------------|" << endl;
-
-                    cout << "Enter Name: ";
-                    getline(cin, nameArray[index]);
-                    cout << "Enter Father Name: ";
-                    getline(cin, fatherNameArray[index]);
-                    cout << "Enter Date of Birth: ";
-                    getline(cin, birthDateArray[index]);
-                    cout << "Enter Birth Year: ";
-                    cin >> birthYearArray[index];
+                    cout << "---Enter Your Details---" << endl;
                     cin.ignore();
+                    cout << "Enter Name: ";
+                    string name;
+                    getline(cin, name);
+                    cout << "Enter Father Name: ";
+                    string fatherName;
+                    getline(cin, fatherName);
+                    cout << "Enter Date of Birth: ";
+                    string birthDate;
+                    getline(cin, birthDate);
 
-                    ageArray[index] = 2026 - birthYearArray[index];
-
-                    if (ageArray[index] >= 0 && ageArray[index] <= 2)
+                    int birthYear;
+                    while (true)
                     {
-                        ageGroupArray[index] = "Infant";
+                        cout << "Enter Birth Year: ";
+                        cin >> birthYear;
+                        if (2026 - birthYear < 0)
+                        {
+                            cout << "Invalid Birth Year! Try Again." << endl;
+                        }
+                        else
+                        {
+                            break;
+                        }
                     }
-                    else if (ageArray[index] > 2 && ageArray[index] <= 12)
+
+                    int age = 2026 - birthYear;
+                    string ageGroup;
+                    if (age >= 0 && age <= 2)
                     {
-                        ageGroupArray[index] = "Child";
+                        ageGroup = "Infant";
+                    }
+                    else if (age > 2 && age <= 12)
+                    {
+                        ageGroup = "Child";
                     }
                     else
                     {
-                        ageGroupArray[index] = "Adult";
+                        ageGroup = "Adult";
                     }
 
+                    cin.ignore();
                     cout << "Enter Passport Number: ";
-                    getline(cin, passportNumberArray[index]);
+                    string passportNumber;
+                    getline(cin, passportNumber);
                     cout << "Enter Expiry Date: ";
-                    getline(cin, expiryDateArray[index]);
+                    string expiryDate;
+                    getline(cin, expiryDate);
 
+                    cout << "1. Economy  - PKR 250,000" << endl;
+                    cout << "2. 3 Star   - PKR 350,000" << endl;
+                    cout << "3. 4 Star   - PKR 500,000" << endl;
+                    cout << "4. 5 Star   - PKR 800,000" << endl;
+                    int packageOption;
                     while (true)
                     {
-                        cout << "\n1. Economy  - PKR 250,000" << endl;
-                        cout << "2. 3 Star   - PKR 350,000" << endl;
-                        cout << "3. 4 Star   - PKR 500,000" << endl;
-                        cout << "4. 5 Star   - PKR 800,000" << endl;
                         cout << "Select Package (1-4): ";
-                        cin >> packageOptionArray[index];
-                        cin.ignore();
-
-                        if (packageOptionArray[index] == '1' || packageOptionArray[index] == '2' ||
-                            packageOptionArray[index] == '3' || packageOptionArray[index] == '4')
+                        cin >> packageOption;
+                        if (packageOption == 1 || packageOption == 2 || packageOption == 3 || packageOption == 4)
                         {
                             break;
                         }
                         else
                         {
-                            cout << "Invalid Option! Please select 1 to 4." << endl;
+                            cout << "Wrong Input, Please choose 1 to 4" << endl;
                         }
                     }
 
+                    nameArray[index] = name;
+                    fatherNameArray[index] = fatherName;
+                    birthDateArray[index] = birthDate;
+                    birthYearArray[index] = birthYear;
+                    ageArray[index] = age;
+                    ageGroupArray[index] = ageGroup;
+                    passportNumberArray[index] = passportNumber;
+                    expiryDateArray[index] = expiryDate;
+                    packageOptionArray[index] = packageOption;
                     index++;
-                    cout << "\nYour details have been entered successfully" << endl;
 
-                    clientHistoryArray[clientHistoryIndex] = "Entered Passenger Details";
-                    clientHistoryIndex++;
-                    if (clientHistoryIndex >= 6) { clientHistoryIndex = 0; }
-
-                    cout << "Press any Button to continue..." << endl;
-                    getch();
+                    cout << "Your details have been stored successfully" << endl;
                 }
-                else if (clientOption == '2')
+                else if (clientOption == 2)
                 {
+                    // view my details
                     system("cls");
-
-                    // View My Passenger Details
-                    cout << "|------------------------------------|" << endl;
-                    cout << "|--------Passenger Details-----------|" << endl;
-                    cout << "|------------------------------------|" << endl;
-
                     if (index == 0)
                     {
                         cout << "No details entered yet." << endl;
                     }
                     else
                     {
-                        cout << "\nName     : " << nameArray[index-1] << endl;
-                        cout << "Father   : " << fatherNameArray[index-1] << endl;
-                        cout << "DOB      : " << birthDateArray[index-1] << endl;
-                        cout << "Age      : " << ageArray[index-1] << " (" << ageGroupArray[index-1] << ")" << endl;
-                        cout << "Passport : " << passportNumberArray[index-1] << endl;
-                        cout << "Expiry   : " << expiryDateArray[index-1] << endl;
-                        cout << "Package  : " << packageOptionArray[index-1] << endl;
+                        cout << "Name     : " << nameArray[index - 1] << endl;
+                        cout << "Father   : " << fatherNameArray[index - 1] << endl;
+                        cout << "DOB      : " << birthDateArray[index - 1] << endl;
+                        cout << "Age      : " << ageArray[index - 1] << " (" << ageGroupArray[index - 1] << ")" << endl;
+                        cout << "Passport : " << passportNumberArray[index - 1] << endl;
+                        cout << "Expiry   : " << expiryDateArray[index - 1] << endl;
+                        cout << "Package  : " << packageOptionArray[index - 1] << endl;
                     }
-
-                    clientHistoryArray[clientHistoryIndex] = "Viewed Passenger Details";
-                    clientHistoryIndex++;
-                    if (clientHistoryIndex >= 6) { clientHistoryIndex = 0; }
-
-                    getch();
                 }
-                else if (clientOption == '3')
+                else if (clientOption == 3)
                 {
+                    // view package details
                     system("cls");
-
-                    // View Package Details
                     cout << "Economy : 10 Days | PIA | Shuttle Inn Makkah | PKR 250,000" << endl;
                     cout << "3 Star  : 14 Days | Emirates | Al Massa Makkah | PKR 350,000" << endl;
                     cout << "4 Star  : 17 Days | Saudi Airlines | Conrad Makkah | PKR 500,000" << endl;
                     cout << "5 Star  : 21 Days | Qatar Airways | Swissotel Makkah | PKR 800,000" << endl;
-
-                    clientHistoryArray[clientHistoryIndex] = "Viewed Package Details";
-                    clientHistoryIndex++;
-                    if (clientHistoryIndex >= 6) { clientHistoryIndex = 0; }
-
-                    getch();
                 }
-                else if (clientOption == '4')
+                else if (clientOption == 4)
                 {
+                    // change my package
                     system("cls");
-
-                    // Change Package Selection
-                    cout << "|------------------------------------|" << endl;
-                    cout << "|-----Change Package Selection-------|" << endl;
-                    cout << "|------------------------------------|" << endl;
-
                     if (index == 0)
                     {
                         cout << "No records found." << endl;
                     }
                     else
                     {
-                        cout << "Enter Record Number (1 to " << index << "): ";
-                        int recordNum;
-                        cin >> recordNum;
-                        cin.ignore();
-
-                        if (recordNum >= 1 && recordNum <= index)
+                        int packageOption;
+                        while (true)
                         {
-                            int pos = recordNum - 1;
-                            while (true)
+                            cout << "Select New Package (1-4): ";
+                            cin >> packageOption;
+                            if (packageOption == 1 || packageOption == 2 || packageOption == 3 || packageOption == 4)
                             {
-                                cout << "Select Package (1-4): ";
-                                cin >> packageOptionArray[pos];
-                                cin.ignore();
-                                if (packageOptionArray[pos] == '1' || packageOptionArray[pos] == '2' ||
-                                    packageOptionArray[pos] == '3' || packageOptionArray[pos] == '4')
-                                {
-                                    cout << "Package updated!" << endl;
-                                    break;
-                                }
-                                else
-                                {
-                                    cout << "Wrong Input! Please Try Again" << endl;
-                                }
+                                packageOptionArray[index - 1] = packageOption;
+                                cout << "Package updated successfully!" << endl;
+                                break;
+                            }
+                            else
+                            {
+                                cout << "Wrong Input, Please choose 1 to 4" << endl;
                             }
                         }
-                        else
-                        {
-                            cout << "Wrong Input! Please Try Again" << endl;
-                        }
                     }
-
-                    clientHistoryArray[clientHistoryIndex] = "Changed Package";
-                    clientHistoryIndex++;
-                    if (clientHistoryIndex >= 6) { clientHistoryIndex = 0; }
-
-                    getch();
                 }
-                else if (clientOption == '5')
+                else if (clientOption == 5)
                 {
+                    // view booking summary
                     system("cls");
-
-                    // View Booking Summary
-                    cout << "|------------------------------------|" << endl;
-                    cout << "|--------Booking Summary-------------|" << endl;
-                    cout << "|------------------------------------|" << endl;
-
                     if (index == 0)
                     {
                         cout << "No details entered yet." << endl;
                     }
                     else
                     {
-                        cout << "Name    : " << nameArray[index-1] << endl;
-                        cout << "Age     : " << ageArray[index-1] << " (" << ageGroupArray[index-1] << ")" << endl;
-                        cout << "Passport: " << passportNumberArray[index-1] << endl;
-
-                        if (packageOptionArray[index-1] == '1') { cout << "Package : Economy - PKR 250,000" << endl; }
-                        else if (packageOptionArray[index-1] == '2') { cout << "Package : 3 Star - PKR 350,000" << endl; }
-                        else if (packageOptionArray[index-1] == '3') { cout << "Package : 4 Star - PKR 500,000" << endl; }
-                        else if (packageOptionArray[index-1] == '4') { cout << "Package : 5 Star - PKR 800,000" << endl; }
-
-                        cout << "\nThank you for choosing us!" << endl;
+                        cout << "Name    : " << nameArray[index - 1] << endl;
+                        cout << "Age     : " << ageArray[index - 1] << " (" << ageGroupArray[index - 1] << ")" << endl;
+                        cout << "Passport: " << passportNumberArray[index - 1] << endl;
+                        if (packageOptionArray[index - 1] == 1)
+                        {
+                            cout << "Package : Economy - PKR 250,000" << endl;
+                        }
+                        else if (packageOptionArray[index - 1] == 2)
+                        {
+                            cout << "Package : 3 Star - PKR 350,000" << endl;
+                        }
+                        else if (packageOptionArray[index - 1] == 3)
+                        {
+                            cout << "Package : 4 Star - PKR 500,000" << endl;
+                        }
+                        else if (packageOptionArray[index - 1] == 4)
+                        {
+                            cout << "Package : 5 Star - PKR 800,000" << endl;
+                        }
+                        cout << endl
+                             << "Thank you for choosing us!" << endl;
                     }
-
-                    clientHistoryArray[clientHistoryIndex] = "Viewed Booking Summary";
-                    clientHistoryIndex++;
-                    if (clientHistoryIndex >= 6) { clientHistoryIndex = 0; }
-
-                    getch();
                 }
-                else if (clientOption == '7')
+                else if (clientOption == 6)
                 {
+                    // view age group info
                     system("cls");
-
-                    // View Age Group Information
                     cout << "Infant : 0-2 years   (No seat)" << endl;
                     cout << "Child  : 3-12 years  (Child fare)" << endl;
                     cout << "Adult  : 13+ years   (Full fare)" << endl;
                     cout << "Age = 2026 - Birth Year" << endl;
-
-                    clientHistoryArray[clientHistoryIndex] = "Viewed Age Group Info";
-                    clientHistoryIndex++;
-                    if (clientHistoryIndex >= 6) { clientHistoryIndex = 0; }
-
-                    getch();
                 }
-                else if (clientOption == '8')
+                else if (clientOption == 7)
                 {
-                    system("cls");
-
-                    // View Action History
-                    cout << "|------------------------------------|" << endl;
-                    cout << "|--------Action History--------------|" << endl;
-                    cout << "|------------------------------------|" << endl;
-
-                    for (int i = 0; i < 6; i++)
-                    {
-                        if (clientHistoryArray[i] != "")
-                        {
-                            cout << i + 1 << ". " << clientHistoryArray[i] << endl;
-                        }
-                    }
-
-                    getch();
-                }
-                else if (clientOption == '9')
-                {
-                    system("cls");
-
-                    // Clear My Details
-                    if (index == 0)
-                    {
-                        cout << "No details to clear." << endl;
-                    }
-                    else
-                    {
-                        nameArray[index-1]           = "";
-                        fatherNameArray[index-1]     = "";
-                        birthDateArray[index-1]      = "";
-                        birthYearArray[index-1]      = 0;
-                        ageArray[index-1]            = 0;
-                        ageGroupArray[index-1]       = "";
-                        passportNumberArray[index-1] = "";
-                        expiryDateArray[index-1]     = "";
-                        packageOptionArray[index-1]  = '0';
-                        index--;
-                        cout << "Details cleared." << endl;
-                    }
-
-                    clientHistoryArray[clientHistoryIndex] = "Cleared Details";
-                    clientHistoryIndex++;
-                    if (clientHistoryIndex >= 6) { clientHistoryIndex = 0; }
-
-                    getch();
-                }
-                else if (clientOption == '0')
-                {
-                    // Exit
+                    // exit client menu
                     cout << "Thank you for choosing us for your prestigious journey!" << endl;
                     getch();
                     break;
                 }
                 else
                 {
-                    cout << "Wrong Input! Please Try Again" << endl;
-                    getch();
+                    cout << "Invalid Option, Please choose one of the options mentioned above." << endl;
                 }
+
+                cout << endl
+                     << "Press any Key to Continue..." << endl;
+                getch();
             }
         }
-        else if (userOption == '3')
+        else if (userOption == 3)
         {
-            system("cls");
-
-            // Exit Application
-            cout << "Thank you for using Umrah Booking Management Application" << endl;
-            getch();
             break;
         }
         else
         {
-            cout << "Wrong Input! Please try Again" << endl;
-            getch();
+            cout << "You chose the wrong option" << endl;
         }
     }
 
-    return 0;
+    cout << "Thanks for using Umrah Booking Management System" << endl;
 }
