@@ -14,7 +14,6 @@ This repository contains all code implementations written primarily in **C++** t
 
 Based on the directory layout shown in repository, the weekly coursework and topics are organized cleanly into individual modules:
 
-*   **`HTML & CSS`** — Basic web styling layouts and structured markups.
 *   **`Practise`** — Experimental scripts, random logic templates, and scratchpad programs.
 *   **`Week 2`** — Introduction to fundamental program layouts and basic syntax structures.
 *   **`Week 3`** & **`Week 4`** — Input/Output handling, variables, and primitive datatypes.
